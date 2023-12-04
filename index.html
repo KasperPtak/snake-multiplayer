@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO snake</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css" /> 
+
+</head>
+
+<body>
+    <div id="roomInfo"></div>
+    <button id="queueBtn">Join Game Queue</button>
+    <div class="container">
+        <div class="player" id="player1">Player 1 (You)</div>
+        <div class="player" id="player2">Player 2 (none)</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        var queueBtn = document.getElementById("queueBtn");
+        var roomInfo = document.getElementById("roomInfo");
+        var player1 = document.getElementById("player1");
+        var player2 = document.getElementById("player2");
+
+        // Event listener for the "Join Game Queue" button
+        queueBtn.addEventListener("click", function () {
+            queueBtn.innerHTML = "Currently in queue, please wait...";
+            socket.emit("join queue");
+        });
+
+        // Event listener for receiving room information
+        socket.on("room joined", function (roomName) {
+            roomInfo.innerText = "You are in room: " + roomName;
+            queueBtn.style.display = "none";
+            player2.style.display = "block"; // Show player2 when room is joined
+            player2.innerHTML = socket.id + '(player 2)'; // Show player2 when room is joined
+        });
+
+    </script>
+</body>
+</html>
