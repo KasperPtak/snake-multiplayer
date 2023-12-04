@@ -1,9 +1,19 @@
 const express = require("express");
-const app = express();
 const http = require("http");
-const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const cors = require("cors");
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+	cors: {
+		origin: "http://localhost:5173",
+		methods: ["GET", "POST"],
+		credentials: true,
+	},
+});
+
+app.use(cors());
 
 let playerQueue = [];
 
@@ -23,13 +33,14 @@ io.on("connection", (socket) => {
 			playerQueue.length
 		);
 
-		// Check if there are at least two players in the queue
+
 		if (playerQueue.length >= 2) {
 			// Pair the first two players in the queue and remove them
+			// shift is just default js, takes first element of array and returns, if it finds one
 			const player1 = playerQueue.shift();
 			const player2 = playerQueue.shift();
 
-			// Create a unique room name
+			// Create a "unique" room name xd
 			const roomName = `room-${Date.now()}`;
 
 			// Join players to the room
@@ -41,7 +52,6 @@ io.on("connection", (socket) => {
 			player2.emit("room joined", roomName);
 		}
 	});
-
 
 	socket.on("disconnect", () => {
 		console.log("player disconnected");
@@ -55,5 +65,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(3000, () => {
-	console.log("listening on *:3000");
+	console.log("listening on http://localhost:3000");
 });
