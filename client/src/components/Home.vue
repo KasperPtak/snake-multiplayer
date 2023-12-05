@@ -16,7 +16,7 @@ const joinGameQueue = () => {
 
 onMounted(() => {
   // Connect to the Socket.io server
-  socket.value = io('http://localhost:3000', {
+  socket.value = io('http://localhost:80', {
     withCredentials: true,
     extraHeaders: {
       'Access-Control-Allow-Origin': '*',

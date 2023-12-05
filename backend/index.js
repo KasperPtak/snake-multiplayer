@@ -3,6 +3,8 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 
+const PORT = 80; //standard http port
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -64,6 +66,6 @@ io.on("connection", (socket) => {
 	});
 });
 
-server.listen(3000, () => {
-	console.log("listening on http://localhost:3000");
+server.listen(4000, () => {
+	console.log(`listening on http://localhost:${PORT}`);
 });
