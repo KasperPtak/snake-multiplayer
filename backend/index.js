@@ -35,9 +35,7 @@ io.on("connection", (socket) => {
 			playerQueue.length
 		);
 
-
 		if (playerQueue.length >= 2) {
-			// Pair the first two players in the queue and remove them
 			// shift is just default js, takes first element of array and returns, if it finds one
 			const player1 = playerQueue.shift();
 			const player2 = playerQueue.shift();
@@ -66,6 +64,6 @@ io.on("connection", (socket) => {
 	});
 });
 
-server.listen(4000, () => {
+server.listen(PORT, () => {
 	console.log(`listening on http://localhost:${PORT}`);
 });
